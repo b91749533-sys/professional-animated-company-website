@@ -1,0 +1,84 @@
+<%- include('partials/header') %>
+
+<!-- Case Study Hero -->
+<section class="case-study-hero reveal">
+  <div class="container">
+    <span class="section-tag"><%= project.category %></span>
+    <h1 class="case-study-title"><%= project.title %></h1>
+    
+    <!-- Meta Details Grid -->
+    <div class="case-meta-grid">
+      <div>
+        <div class="meta-label">Client</div>
+        <div class="meta-val"><%= project.client %></div>
+      </div>
+      <div>
+        <div class="meta-label">Timeline</div>
+        <div class="meta-val"><%= project.date %></div>
+      </div>
+      <div>
+        <div class="meta-label">Category</div>
+        <div class="meta-val"><%= project.category %></div>
+      </div>
+      <div>
+        <div class="meta-label">Technologies</div>
+        <div class="meta-val" style="display: flex; gap: 0.25rem; flex-wrap: wrap; margin-top: 0.25rem;">
+          <% project.tags.forEach(tag => { %>
+            <span style="font-size: 0.75rem; background: rgba(255,255,255,0.06); padding: 0.1rem 0.4rem; border-radius: 4px; color: var(--text-muted);"><%= tag %></span>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Case Study Body -->
+<section class="case-body reveal">
+  <div class="container case-grid-content">
+    
+    <!-- Main Description -->
+    <div class="case-main">
+      <div>
+        <h2 class="case-sec-title">Project Overview</h2>
+        <p style="font-size: 1.1rem; line-height: 1.7;"><%= project.description %></p>
+      </div>
+
+      <div>
+        <h2 class="case-sec-title">The Challenge</h2>
+        <p style="font-size: 1.1rem; line-height: 1.7;"><%= project.challenge %></p>
+      </div>
+
+      <div>
+        <h2 class="case-sec-title">Our Solution</h2>
+        <p style="font-size: 1.1rem; line-height: 1.7;"><%= project.solution %></p>
+      </div>
+    </div>
+
+    <!-- Side Results Card -->
+    <div class="case-results-card">
+      <h3 style="color: var(--text-accent); font-weight: 800; font-size: 1.35rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Key Metrics</h3>
+      <ul class="results-list">
+        <% project.results.forEach(result => { %>
+          <li><%= result %></li>
+        <% }) %>
+      </ul>
+      
+      <div style="margin-top: 2.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+        <p style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem;">Need similar engineering results in your organization?</p>
+        <a href="/contact?ref=<%= project.slug %>" class="btn btn-primary" style="width: 100%; font-size: 0.9rem;">Consult on a Project</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Related Work Section -->
+<section style="background: rgba(255,255,255,0.01); border-top: 1px solid var(--border-color);" class="reveal">
+  <div class="container" style="text-align: center;">
+    <h2 style="margin-bottom: 1.5rem;">Explore More Cases</h2>
+    <p style="color: var(--text-muted); margin-bottom: 3rem;">Review other project solutions we have engineered for digital platforms.</p>
+    <a href="/portfolio" class="btn btn-secondary">Return to Portfolio</a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

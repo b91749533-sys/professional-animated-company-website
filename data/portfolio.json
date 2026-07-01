@@ -1,0 +1,62 @@
+[
+  {
+    "id": "project-1",
+    "title": "NovaPay: Next-Gen FinTech Dashboard",
+    "slug": "novapay-fintech-dashboard",
+    "description": "Designing and building a highly secure, lightning-fast financial transaction dashboard with real-time telemetry and advanced visualization components.",
+    "category": "Web Development",
+    "image": "/images/portfolio-novapay.jpg",
+    "tags": ["React", "Node.js", "WebSocket", "D3.js", "Tailwind"],
+    "client": "NovaPay Global Inc.",
+    "date": "December 2025",
+    "challenge": "NovaPay needed to display over 10,000 real-time payment events per second with zero browser lag. Users were experiencing UI lockups and layout shifts when viewing high-density financial data. The security requirements also dictated strict data-at-rest encryption and secure cross-origin resource access.",
+    "solution": "We re-engineered their frontend rendering pipeline using a virtualized list architecture and offloaded transaction parsing to a background Web Worker thread. Real-time updates were piped through an optimized WebSocket connection using binary protocol buffering instead of heavy JSON text frames. For visualization, we built high-performance, GPU-accelerated canvas components using custom rendering logic.",
+    "results": [
+      "99.9% reduction in main-thread blocking time during peak traffic",
+      "Interactive data charts rendering at a consistent 60 FPS",
+      "Average dashboard loading time decreased from 4.8s to 0.9s",
+      "Recognized by FinTech Weekly for 'Outstanding UX Innovation'"
+    ],
+    "featured": true
+  },
+  {
+    "id": "project-2",
+    "title": "Aether: AI-Powered Supply Chain Optimizer",
+    "slug": "aether-supply-chain-ai",
+    "description": "An intelligent cloud platform executing machine learning algorithms to forecast demand spikes, route cargo, and automate warehousing operations.",
+    "category": "AI Integration",
+    "image": "/images/portfolio-aether.jpg",
+    "tags": ["Python", "TensorFlow", "FastAPI", "AWS", "Docker"],
+    "client": "Aether Logistical Group",
+    "date": "March 2026",
+    "challenge": "Legacy supply systems had no predictive power, leading to excess storage fees during low seasons and severe inventory shortages during surprise spikes. Operations managers had to manually run spreadsheets that took up to 12 hours to compile.",
+    "solution": "We designed an automated ingestion pipeline that reads shipping data, fuel costs, weather projections, and retail signals directly into a data warehouse. A custom recurrent neural network (RNN) forecast model runs daily predictions. We wrapped the model in a high-speed FastAPI backend deployed on auto-scaled Kubernetes pods, providing predictive dashboard interfaces.",
+    "results": [
+      "22% drop in inventory overhead costs within 90 days",
+      "94.2% accuracy on 30-day logistics demand predictions",
+      "Manual reporting time slashed from 12 hours to instant dashboards",
+      "Seamless integration with 15 international ports"
+    ],
+    "featured": true
+  },
+  {
+    "id": "project-3",
+    "title": "Apex Fitness: Cross-Platform Workout Companion",
+    "slug": "apex-fitness-mobile-app",
+    "description": "Developing a premium iOS and Android fitness companion application with offline caching, local notifications, and device health integrations.",
+    "category": "Mobile Applications",
+    "image": "/images/portfolio-apex.jpg",
+    "tags": ["Flutter", "GraphQL", "Firebase", "HealthKit", "SQLite"],
+    "client": "Apex Brands Ltd.",
+    "date": "May 2026",
+    "challenge": "Apex Fitness wanted an app that synced with Apple HealthKit and Android Google Fit while maintaining local offline operations, allowing users to track exercises in remote areas (like basements or nature reserves) with zero connectivity.",
+    "solution": "We utilized Flutter for native cross-platform compilation, incorporating a local SQLite database that mirrors a remote GraphQL endpoint. Using a background synchronizer, data queues automatically upload when network signals return. We implemented hardware acceleration for active tracking routines and custom circular slider dials.",
+    "results": [
+      "Successfully launched on iOS App Store & Google Play Store with 4.8 stars",
+      "Over 250,000 active tracking sessions synced completely offline",
+      "100% data fidelity maintained across synchronization intervals",
+      "Direct API integration with Apple Watch and WearOS devices"
+    ],
+    "featured": false
+  }
+]

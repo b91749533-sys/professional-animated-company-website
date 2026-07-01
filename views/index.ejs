@@ -1,0 +1,178 @@
+<%- include('partials/header') %>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <!-- Interactive Canvas Background -->
+  <canvas id="hero-canvas"></canvas>
+  <div class="grid-bg"></div>
+
+  <div class="container hero-container">
+    <!-- Hero Text -->
+    <div class="hero-content reveal">
+      <div class="hero-tag">
+        <span class="badge">New</span> Next-Gen Enterprise Platforms
+      </div>
+      <h1 class="hero-headline">
+        Innovative Solutions for <br>
+        <span class="gradient-text">Modern Businesses</span>
+      </h1>
+      <p class="hero-desc">
+        We help organizations grow through technology, design, strategy, and digital transformation. Delivering pixel-perfect design combined with reliable engineering.
+      </p>
+      <div class="hero-actions">
+        <a href="/contact" class="btn btn-primary">Get Started</a>
+        <a href="/services" class="btn btn-secondary">Schedule a Consultation</a>
+      </div>
+
+      <!-- Trust Indicators -->
+      <div class="hero-trust">
+        <div class="trust-title">Trusted by industry leaders</div>
+        <div class="logo-grid">
+          <div class="logo-item">AETHER</div>
+          <div class="logo-item">NOVAPAY</div>
+          <div class="logo-item">APEX CORP</div>
+          <div class="logo-item">NEXUS</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated 3D Floating Graphic Orbs -->
+    <div class="hero-graphic reveal reveal-delay-2">
+      <div class="graphic-orb">
+        <!-- Floating Interactive Glass Cards -->
+        <div class="glass-card-interactive card-pos-1" style="width: 180px;">
+          <h4 style="margin-bottom: 0.25rem; font-size: 0.9rem;">Core Web Vitals</h4>
+          <div style="font-size: 1.5rem; font-weight: 800; color: #10b981; margin-bottom: 0.25rem;">99/100</div>
+          <p style="font-size: 0.75rem; margin: 0; color: var(--text-dim);">Excellent Page Speed Score</p>
+        </div>
+
+        <div class="glass-card-interactive card-pos-2" style="width: 200px;">
+          <h4 style="margin-bottom: 0.25rem; font-size: 0.9rem;">AI Integrations</h4>
+          <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-accent); margin-bottom: 0.25rem;">Active</div>
+          <p style="font-size: 0.75rem; margin: 0; color: var(--text-dim);">Distributed neural layers</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Metrics & Statistics Section -->
+<section class="reveal">
+  <div class="container">
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-num" data-target="150" data-suffix="+">0</div>
+        <div class="metric-label">Projects Completed</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num" data-target="99" data-suffix=".%">0</div>
+        <div class="metric-label">Uptime SLA</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num" data-target="24" data-suffix="/7">0</div>
+        <div class="metric-label">Support coverage</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num" data-target="10" data-suffix="M+">0</div>
+        <div class="metric-label">Transactions Handled</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Core Services Highlight -->
+<section style="background: rgba(255, 255, 255, 0.01);" class="reveal">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Capabilities</span>
+      <h2>Our Core Services</h2>
+      <p class="section-desc">We build enterprise software products combining aesthetic design with rock-solid infrastructure.</p>
+    </div>
+
+    <div class="services-grid">
+      <!-- Web Dev -->
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">⚡</div>
+        <h3>Web Development</h3>
+        <p>Premium server-rendered websites and dashboards engineered for maximum performance, loading speeds, and indexability.</p>
+      </div>
+      <!-- Mobile Applications -->
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon">📱</div>
+        <h3>Mobile Applications</h3>
+        <p>Fluid cross-platform application design utilizing high-performance background sync capabilities and native OS APIs.</p>
+      </div>
+      <!-- UI/UX Design -->
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon">🎨</div>
+        <h3>UI/UX Design</h3>
+        <p>Stunning, minimalist designs focused on visual hierarchy, accessibility, custom micro-interactions, and premium typography.</p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 3.5rem;">
+      <a href="/services" class="btn btn-secondary">Explore All Services</a>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Projects Preview -->
+<section class="reveal">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Case Studies</span>
+      <h2>Featured Works</h2>
+      <p class="section-desc">Explore projects demonstrating our engineering capability and product quality.</p>
+    </div>
+
+    <div class="portfolio-grid">
+      <% featuredPortfolio.forEach(project => { %>
+        <div class="portfolio-card reveal">
+          <div class="portfolio-img-wrapper">
+            <div class="portfolio-overlay">
+              <span class="portfolio-tag"><%= project.category %></span>
+              <h3><%= project.title %></h3>
+              <p><%= project.description %></p>
+              <a href="/portfolio/<%= project.slug %>" class="btn btn-primary" style="width: fit-content; padding: 0.5rem 1.25rem; font-size: 0.85rem;">View Case Study</a>
+            </div>
+            <!-- Mock visual background placeholder -->
+            <div style="width:100%; height:100%; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);"></div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Insights Blog -->
+<section style="background: rgba(255, 255, 255, 0.01);" class="reveal">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Insights</span>
+      <h2>From the Blog</h2>
+      <p class="section-desc">Thought leadership in system engineering, client-side speed optimizations, and cloud scaling strategies.</p>
+    </div>
+
+    <div class="blog-grid">
+      <% featuredBlogs.forEach(post => { %>
+        <div class="blog-card reveal">
+          <div class="blog-card-img">
+            <!-- Mock visual background placeholder -->
+            <div style="width:100%; height:100%; background: linear-gradient(135deg, #111827 0%, #1f2937 100%); display:flex; align-items:center; justify-content:center; color:#4b5563; font-weight:700; font-size:1.5rem;"><%= post.category %></div>
+          </div>
+          <div class="blog-card-content">
+            <div class="blog-card-meta">
+              <span><%= post.date %></span>
+              <span><%= post.readTime %></span>
+            </div>
+            <h3><%= post.title %></h3>
+            <p><%= post.excerpt %></p>
+            <a href="/blog/<%= post.slug %>" class="blog-read-more">Read Article</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,29 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= title %></title>
+<meta name="description" content="<%= metaDescription %>">
+<meta name="author" content="<%= author %>">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="http://localhost:3000<%= currentPath %>">
+<meta property="og:title" content="<%= title %>">
+<meta property="og:description" content="<%= metaDescription %>">
+<meta property="og:image" content="http://localhost:3000/images/og-image.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="http://localhost:3000<%= currentPath %>">
+<meta property="twitter:title" content="<%= title %>">
+<meta property="twitter:description" content="<%= metaDescription %>">
+<meta property="twitter:image" content="http://localhost:3000/images/og-image.jpg">
+
+<!-- Structured Data Schema Markup -->
+<% if (locals.schemaMarkup) { %>
+  <script type="application/ld+json">
+    <%- schemaMarkup %>
+  </script>
+<% } %>

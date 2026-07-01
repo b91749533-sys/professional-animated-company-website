@@ -1,0 +1,65 @@
+[
+  {
+    "id": "job-1",
+    "title": "Senior Frontend Engineer",
+    "department": "Engineering",
+    "location": "Remote (US/Europe)",
+    "type": "Full-time",
+    "salary": "$130k - $160k",
+    "description": "We are seeking a Senior Frontend Engineer who is passionate about pixel-perfect implementation, complex CSS/JS interactions, and rendering speeds. You will lead the development of our client-facing web applications and build beautiful, accessible, and high-performance user interfaces.",
+    "requirements": [
+      "5+ years of experience building modern web applications with React, Vue, or modern frontend tools",
+      "Deep expertise in CSS3, CSS Modules, Flexbox, Grid, and standard web APIs",
+      "Proven track record of optimizing Core Web Vitals and achieving Lighthouse scores >90",
+      "Experience with state management, animations (e.g. Framer Motion, GSAP, or Web Animations API), and SVG manipulation"
+    ],
+    "responsibilities": [
+      "Develop clean, modular, and reusable UI components and page layouts",
+      "Collaborate with product designers to implement premium interactions and micro-animations",
+      "Audit and resolve performance bottlenecks in frontend rendering pipelines",
+      "Mentor junior developers and participate in code reviews to maintain high quality standards"
+    ]
+  },
+  {
+    "id": "job-2",
+    "title": "Lead UI/UX Designer",
+    "department": "Design",
+    "location": "Hybrid (London, UK)",
+    "type": "Full-time",
+    "salary": "£75,000 - £90,000",
+    "description": "We are looking for a Lead UI/UX Designer who can bridge the gap between human behaviors and stunning technology. You will define the visual style, user journey, and design systems for enterprise-grade applications, producing high-fidelity prototypes and final specifications.",
+    "requirements": [
+      "6+ years of UI/UX design experience, preferably in agency or B2B SaaS spaces",
+      "Expert knowledge of Figma, design systems, and visual asset generation",
+      "Strong portfolio demonstrating minimalist layouts, clean grids, and rich typography",
+      "Ability to articulate design rationale and present user test findings to stakeholders"
+    ],
+    "responsibilities": [
+      "Own the end-to-end design process, from low-fidelity wireframes to polished responsive mocks",
+      "Maintain, document, and expand our corporate design token system",
+      "Conduct user research, mapping sessions, and prototype usability testing",
+      "Provide developers with clean specs, SVGs, and transition instructions"
+    ]
+  },
+  {
+    "id": "job-3",
+    "title": "Cloud Solutions Architect",
+    "department": "Engineering",
+    "location": "Remote (Global)",
+    "type": "Contract",
+    "salary": "$90 - $120 / hour",
+    "description": "We need a Cloud Solutions Architect to design scalable, secure, and cost-effective multi-region cloud infrastructures on GCP/AWS. You will build automation scripts, configure Kubernetes routing, and establish self-healing server architectures.",
+    "requirements": [
+      "4+ years as a Cloud Solutions Architect with AWS or Google Cloud certifications",
+      "Strong hands-on experience with Terraform, Docker, and Kubernetes (EKS/GKE)",
+      "Deep understanding of distributed systems, CDN edge routing, caching strategies, and database clustering",
+      "Experience setting up CI/CD pipelines (GitHub Actions, GitLab CI)"
+    ],
+    "responsibilities": [
+      "Design multi-region cloud architectures that support auto-scaling and high availability",
+      "Write declarative Infrastructure as Code (IaC) templates using Terraform",
+      "Collaborate with security teams to ensure SOC2 and GDPR compliance across cloud assets",
+      "Optimize server configurations to reduce compute costs and resource waste"
+    ]
+  }
+]

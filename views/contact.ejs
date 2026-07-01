@@ -1,0 +1,96 @@
+<%- include('partials/header') %>
+
+<!-- Contact Hero Section -->
+<section style="padding: 10rem 2rem 5rem 2rem; background: radial-gradient(circle at 50% 30%, rgba(37, 99, 235, 0.06) 0%, transparent 60%); text-align: center;" class="reveal">
+  <div class="container">
+    <span class="section-tag">Contact Us</span>
+    <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem; font-weight: 800;">Let's Work Together</h1>
+    <p style="max-width: 700px; margin: 0 auto 3rem auto; font-size: 1.2rem; color: var(--text-muted);">
+      Ready to design a new application, audit your infrastructure, or consult on a technology strategy? Drop us a message.
+    </p>
+  </div>
+</section>
+
+<!-- Contact Form and Details -->
+<section class="reveal" style="padding-top: 2rem;">
+  <div class="container contact-layout">
+    
+    <!-- Office details & Map -->
+    <div class="contact-details">
+      <div>
+        <h2 style="margin-bottom: 1.5rem;">Our Office</h2>
+        <p style="color: var(--text-muted);">We work globally with fully remote engineers, but you can always find us at our headquarters in London.</p>
+      </div>
+
+      <div class="contact-info-block">
+        <div class="info-icon">📍</div>
+        <div class="info-text">
+          <h4>Headquarters</h4>
+          <p>128 City Road, London, EC1V 2NX, United Kingdom</p>
+        </div>
+      </div>
+
+      <div class="contact-info-block">
+        <div class="info-icon">✉️</div>
+        <div class="info-text">
+          <h4>Business Inquiries</h4>
+          <p>contact@manssouritech.com</p>
+        </div>
+      </div>
+
+      <div class="contact-info-block">
+        <div class="info-icon">📞</div>
+        <div class="info-text">
+          <h4>Consultations Line</h4>
+          <p>+44 (0) 20 7183 1290 (Mon-Fri, 9AM-5PM GMT)</p>
+        </div>
+      </div>
+
+      <!-- Map Container with CSS Dark Filter -->
+      <div class="map-container">
+        <iframe src="https://maps.google.com/maps?q=London%20128%20City%20Road&t=&z=14&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy" aria-label="Google Maps office location"></iframe>
+      </div>
+    </div>
+
+    <!-- Contact Form Form -->
+    <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 3rem; border-radius: 16px; box-shadow: var(--shadow-lg);">
+      <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Send a Message</h3>
+      
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="name">Your Name *</label>
+          <input type="text" id="name" name="name" required placeholder="John Doe">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required placeholder="john@company.com">
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Subject *</label>
+          <select id="subject" name="subject" required aria-label="Inquiry subject select">
+            <option value="" disabled selected>Select a subject...</option>
+            <option value="Software Development">Software Development Project</option>
+            <option value="UI/UX Product Design">UI/UX Product Design</option>
+            <option value="Cloud Architecture Strategy">Cloud Architecture Strategy</option>
+            <option value="AI Orchestration Middleware">AI Orchestration Middleware</option>
+            <option value="General Partnerships">General Partnerships</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message *</label>
+          <textarea id="message" name="message" rows="6" required placeholder="Tell us about your project requirements, scope, timeline, and goals..."></textarea>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<%- include('partials/footer') %>

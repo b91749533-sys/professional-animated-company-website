@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/seo') %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+
+  <div class="admin-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar" role="navigation">
+      <div class="admin-sidebar-header">
+        <span style="font-size:1.5rem;">⚙️</span>
+        <div class="admin-logo">Admin Console</div>
+      </div>
+      
+      <ul class="admin-nav">
+        <li class="admin-nav-item active" data-panel="analytics"><a href="#analytics">📊 Analytics Overview</a></li>
+        <li class="admin-nav-item" data-panel="blog"><a href="#blog">📝 Blog Posts</a></li>
+        <li class="admin-nav-item" data-panel="portfolio"><a href="#portfolio">💼 Portfolio CMS</a></li>
+        <li class="admin-nav-item" data-panel="careers"><a href="#careers">🛠️ Career Listings</a></li>
+        <li class="admin-nav-item" data-panel="applications"><a href="#applications">📄 Job Applications</a></li>
+        <li class="admin-nav-item" data-panel="messages"><a href="#messages">✉️ Client Messages (<span id="unread-msg-count"><%= unreadMessages %></span>)</a></li>
+        <li class="admin-nav-item" data-panel="subscribers"><a href="#subscribers">📧 Subscribers</a></li>
+      </ul>
+
+      <div class="admin-sidebar-footer">
+        <div style="font-size:0.8rem; color:var(--admin-text-muted); margin-bottom:1rem; display:flex; align-items:center; gap:0.25rem;">
+          👤 User: <strong><%= user.username %></strong>
+        </div>
+        <a href="/admin/logout" class="admin-logout-btn">🔒 Secure Logout</a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-content" role="main">
+      
+      <!-- Welcome Header & Simulated Permissions Switcher -->
+      <header class="admin-header">
+        <div class="admin-welcome">
+          <h1>Dashboard Control</h1>
+          <p>Manage enterprise website content, review inquiries, and monitor statistics.</p>
+        </div>
+
+        <!-- Role Selector Simulator -->
+        <div class="role-badge-selector">
+          <label for="simulatedRole">Permission Role:</label>
+          <select id="simulatedRole" aria-label="Change permission role simulation">
+            <option value="Admin" <%= currentRole === 'Admin' ? 'selected' : '' %>>Admin (Full CRUD)</option>
+            <option value="Editor" <%= currentRole === 'Editor' ? 'selected' : '' %>>Editor (Read/Write)</option>
+            <option value="Viewer" <%= currentRole === 'Viewer' ? 'selected' : '' %>>Viewer (Read-Only)</option>
+          </select>
+        </div>
+      </header>
+
+      <!-- ====================================================================
+           1. ANALYTICS OVERVIEW PANEL
+           ==================================================================== -->
+      <div id="panel-analytics" class="cms-panel active">
+        <!-- Stats cards -->
+        <div class="admin-stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Blog Views</div>
+            <div class="stat-value"><%= totalViews.toLocaleString() %></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Newsletter Subscribers</div>
+            <div class="stat-value"><%= subscribers.length %></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Form Submits</div>
+            <div class="stat-value"><%= messages.length %></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Job Applications</div>
+            <div class="stat-value"><%= applications.length %></div>
+          </div>
+        </div>
+
+        <!-- Analytics line chart -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3 class="admin-card-title">Daily Web Analytics Telemetry</h3>
+            <span style="font-size:0.8rem; color:var(--admin-text-muted);">Page Views (Past 7 Days)</span>
+          </div>
+
+          <div class="chart-container">
+            <svg class="chart-svg" viewBox="0 0 500 200" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="chart-gradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2563eb" stop-opacity="0.8"/>
+                  <stop offset="100%" stop-color="#7C3AED" stop-opacity="0.8"/>
+                </linearGradient>
+                <linearGradient id="area-gradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2563eb" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#7C3AED" stop-opacity="0.0"/>
+                </linearGradient>
+              </defs>
+              <!-- Chart Grid Lines -->
+              <line class="chart-grid-line" x1="0" y1="50" x2="500" y2="50" />
+              <line class="chart-grid-line" x1="0" y1="100" x2="500" y2="100" />
+              <line class="chart-grid-line" x1="0" y1="150" x2="500" y2="150" />
+              <!-- Chart Fill Area -->
+              <path class="chart-area" d="M 0 200 L 0 170 L 70 120 L 140 150 L 210 90 L 280 110 L 350 40 L 420 60 L 500 10 L 500 200 Z" />
+              <!-- Chart Line path -->
+              <path class="chart-line" d="M 0 170 L 70 120 L 140 150 L 210 90 L 280 110 L 350 40 L 420 60 L 500 10" />
+              <!-- Points -->
+              <circle class="chart-point" cx="0" cy="170" r="4" />
+              <circle class="chart-point" cx="70" cy="120" r="4" />
+              <circle class="chart-point" cx="140" cy="150" r="4" />
+              <circle class="chart-point" cx="210" cy="90" r="4" />
+              <circle class="chart-point" cx="280" cy="110" r="4" />
+              <circle class="chart-point" cx="350" cy="40" r="4" />
+              <circle class="chart-point" cx="420" cy="60" r="4" />
+              <circle class="chart-point" cx="500" cy="10" r="4" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           2. BLOG CMS PANEL
+           ==================================================================== -->
+      <div id="panel-blog" class="cms-panel">
+        <div class="admin-panel-grid">
+          <!-- Form Section -->
+          <div class="admin-card">
+            <h3 class="admin-card-title" id="blogFormTitle">Add New Blog Post</h3>
+            <form id="blogCmsForm" style="margin-top:1.5rem;">
+              <input type="hidden" id="blogPostId">
+              
+              <div class="form-group">
+                <label for="blogTitle">Article Title *</label>
+                <input type="text" id="blogTitle" required placeholder="e.g. Scaling Docker Pods">
+              </div>
+
+              <div class="form-group">
+                <label for="blogExcerpt">Excerpt Description *</label>
+                <input type="text" id="blogExcerpt" required placeholder="Short summary displayed in lists">
+              </div>
+
+              <div class="form-group">
+                <label for="blogCategory">Category *</label>
+                <select id="blogCategory" required>
+                  <option value="" disabled selected>Select category...</option>
+                  <option value="AI & Innovation">AI & Innovation</option>
+                  <option value="UI/UX & Frontend">UI/UX & Frontend</option>
+                  <option value="Cloud & DevOps">Cloud & DevOps</option>
+                  <option value="General News">General News</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="blogContent">Post Markdown/HTML Content *</label>
+                <textarea id="blogContent" rows="12" required placeholder="<h2>Heading</h2><p>Write your article content here...</p>"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="blogFeatured">Featured Post</label>
+                <select id="blogFeatured">
+                  <option value="false">No (Standard Post)</option>
+                  <option value="true">Yes (Show on Homepage)</option>
+                </select>
+              </div>
+
+              <div style="margin-top:2rem; display:flex; gap:1rem;">
+                <button type="submit" class="btn btn-primary" style="flex-grow:1;">Save Article</button>
+                <button type="button" id="blogCancelBtn" class="btn btn-secondary" style="display:none;">Cancel Edit</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- List Section -->
+          <div class="admin-card">
+            <h3 class="admin-card-title">Manage Articles</h3>
+            <div class="admin-table-wrapper" style="margin-top:1.5rem;">
+              <table class="admin-table" aria-label="Blog posts list table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Views</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="blogTableBody">
+                  <% blogs.forEach(post => { %>
+                    <tr id="blog-row-<%= post.id %>">
+                      <td><strong><%= post.title %></strong></td>
+                      <td><%= post.category %></td>
+                      <td><%= post.views || 0 %></td>
+                      <td>
+                        <div class="admin-actions">
+                          <button class="btn-icon edit-blog-btn" data-post='<%- JSON.stringify(post).replace(/'/g, "&#39;") %>' aria-label="Edit blog post">✏️</button>
+                          <button class="btn-icon btn-icon-danger delete-blog-btn" data-id="<%= post.id %>" aria-label="Delete blog post">🗑️</button>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           3. PORTFOLIO CMS PANEL
+           ==================================================================== -->
+      <div id="panel-portfolio" class="cms-panel">
+        <div class="admin-panel-grid">
+          <!-- Form Section -->
+          <div class="admin-card">
+            <h3 class="admin-card-title" id="portfolioFormTitle">Add New Project</h3>
+            <form id="portfolioCmsForm" style="margin-top:1.5rem;">
+              <input type="hidden" id="portfolioProjId">
+
+              <div class="form-group">
+                <label for="portfolioTitle">Project Title *</label>
+                <input type="text" id="portfolioTitle" required placeholder="e.g. Apex Dashboard">
+              </div>
+
+              <div class="form-group">
+                <label for="portfolioDesc">Short Description *</label>
+                <textarea id="portfolioDesc" rows="3" required placeholder="Brief project summary"></textarea>
+              </div>
+
+              <div class="admin-form-row">
+                <div class="form-group">
+                  <label for="portfolioCategory">Category *</label>
+                  <select id="portfolioCategory" required>
+                    <option value="" disabled selected>Select category...</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Mobile Applications">Mobile Applications</option>
+                    <option value="UI/UX Design">UI/UX Design</option>
+                    <option value="AI Integration">AI Integration</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="portfolioClient">Client Name *</label>
+                  <input type="text" id="portfolioClient" required placeholder="e.g. Apex Corp">
+                </div>
+              </div>
+
+              <div class="admin-form-row">
+                <div class="form-group">
+                  <label for="portfolioDate">Project Date</label>
+                  <input type="text" id="portfolioDate" placeholder="e.g. May 2026">
+                </div>
+                <div class="form-group">
+                  <label for="portfolioTags">Tags (comma separated)</label>
+                  <input type="text" id="portfolioTags" placeholder="React, D3, WebSocket">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="portfolioChallenge">The Challenge *</label>
+                <textarea id="portfolioChallenge" rows="4" required placeholder="What problem did the client face?"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="portfolioSolution">Our Solution *</label>
+                <textarea id="portfolioSolution" rows="4" required placeholder="How did we design and build it?"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="portfolioResults">Project Results Metrics (One per line)</label>
+                <textarea id="portfolioResults" rows="4" placeholder="99.9% reduction in latency&#10;Average load time under 0.9s"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="portfolioFeatured">Featured Case Study</label>
+                <select id="portfolioFeatured">
+                  <option value="false">No (Standard Project)</option>
+                  <option value="true">Yes (Show on Homepage)</option>
+                </select>
+              </div>
+
+              <div style="margin-top:2rem; display:flex; gap:1rem;">
+                <button type="submit" class="btn btn-primary" style="flex-grow:1;">Save Project</button>
+                <button type="button" id="portfolioCancelBtn" class="btn btn-secondary" style="display:none;">Cancel Edit</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- List Section -->
+          <div class="admin-card">
+            <h3 class="admin-card-title">Manage Case Studies</h3>
+            <div class="admin-table-wrapper" style="margin-top:1.5rem;">
+              <table class="admin-table" aria-label="Portfolio projects list table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Client</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="portfolioTableBody">
+                  <% portfolio.forEach(proj => { %>
+                    <tr id="portfolio-row-<%= proj.id %>">
+                      <td><strong><%= proj.title %></strong></td>
+                      <td><%= proj.category %></td>
+                      <td><%= proj.client %></td>
+                      <td>
+                        <div class="admin-actions">
+                          <button class="btn-icon edit-portfolio-btn" data-proj='<%- JSON.stringify(proj).replace(/'/g, "&#39;") %>' aria-label="Edit project">✏️</button>
+                          <button class="btn-icon btn-icon-danger delete-portfolio-btn" data-id="<%= proj.id %>" aria-label="Delete project">🗑️</button>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           4. CAREERS POSITION CMS PANEL
+           ==================================================================== -->
+      <div id="panel-careers" class="cms-panel">
+        <div class="admin-panel-grid">
+          <!-- Form Section -->
+          <div class="admin-card">
+            <h3 class="admin-card-title" id="careerFormTitle">Add Open Role</h3>
+            <form id="careersCmsForm" style="margin-top:1.5rem;">
+              <input type="hidden" id="careersRoleId">
+
+              <div class="form-group">
+                <label for="careerTitle">Job Title *</label>
+                <input type="text" id="careerTitle" required placeholder="e.g. Frontend Engineer">
+              </div>
+
+              <div class="admin-form-row">
+                <div class="form-group">
+                  <label for="careerDept">Department *</label>
+                  <input type="text" id="careerDept" required placeholder="e.g. Engineering">
+                </div>
+                <div class="form-group">
+                  <label for="careerLocation">Location *</label>
+                  <input type="text" id="careerLocation" required placeholder="e.g. Remote (US)">
+                </div>
+              </div>
+
+              <div class="admin-form-row">
+                <div class="form-group">
+                  <label for="careerType">Type *</label>
+                  <select id="careerType" required>
+                    <option value="Full-time">Full-time</option>
+                    <option value="Part-time">Part-time</option>
+                    <option value="Remote">Remote</option>
+                    <option value="Contract">Contract</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="careerSalary">Salary range</label>
+                  <input type="text" id="careerSalary" placeholder="e.g. $130k - $160k">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="careerDesc">Role Summary *</label>
+                <textarea id="careerDesc" rows="4" required placeholder="Enter role overview..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="careerReqs">Role Requirements (One per line) *</label>
+                <textarea id="careerReqs" rows="5" required placeholder="5+ years experience&#10;Deep CSS modules knowledge"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="careerResps">Role Responsibilities (One per line) *</label>
+                <textarea id="careerResps" rows="5" required placeholder="Write clean modular code&#10;Collaborate with product designers"></textarea>
+              </div>
+
+              <div style="margin-top:2rem; display:flex; gap:1rem;">
+                <button type="submit" class="btn btn-primary" style="flex-grow:1;">Save Position</button>
+                <button type="button" id="careersCancelBtn" class="btn btn-secondary" style="display:none;">Cancel Edit</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- List Section -->
+          <div class="admin-card">
+            <h3 class="admin-card-title">Manage Job Openings</h3>
+            <div class="admin-table-wrapper" style="margin-top:1.5rem;">
+              <table class="admin-table" aria-label="Open positions list table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Dept</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="careersTableBody">
+                  <% careers.forEach(job => { %>
+                    <tr id="careers-row-<%= job.id %>">
+                      <td><strong><%= job.title %></strong></td>
+                      <td><%= job.department %></td>
+                      <td><%= job.location %></td>
+                      <td>
+                        <div class="admin-actions">
+                          <button class="btn-icon edit-career-btn" data-job='<%- JSON.stringify(job).replace(/'/g, "&#39;") %>' aria-label="Edit job position">✏️</button>
+                          <button class="btn-icon btn-icon-danger delete-career-btn" data-id="<%= job.id %>" aria-label="Delete job position">🗑️</button>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           5. JOB APPLICATIONS PANEL
+           ==================================================================== -->
+      <div id="panel-applications" class="cms-panel">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3 class="admin-card-title">Job Applications Inbox</h3>
+          </div>
+          <div class="admin-table-wrapper" style="margin-top:1rem;">
+            <table class="admin-table" aria-label="Job applications inbox table">
+              <thead>
+                <tr>
+                  <th>Candidate</th>
+                  <th>Position</th>
+                  <th>Contact Info</th>
+                  <th>Documents</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="applicationsTableBody">
+                <% if (applications.length === 0) { %>
+                  <tr>
+                    <td colspan="5" style="text-align:center; color:var(--admin-text-muted); padding:3rem;">No applications received yet.</td>
+                  </tr>
+                <% } else { %>
+                  <% applications.forEach(app => { %>
+                    <tr id="app-row-<%= app.id %>">
+                      <td>
+                        <strong><%= app.name %></strong>
+                        <div style="font-size:0.75rem; color:var(--admin-text-muted);"><%= app.date %></div>
+                      </td>
+                      <td><%= app.jobTitle %></td>
+                      <td>
+                        <div style="font-size:0.85rem;"><%= app.email %></div>
+                        <div style="font-size:0.8rem; color:var(--admin-text-muted);"><%= app.phone %></div>
+                      </td>
+                      <td>
+                        <a href="<%= app.resumePath %>" target="_blank" download class="btn btn-secondary" style="padding:0.3rem 0.75rem; font-size:0.75rem;">📂 Download Resume</a>
+                      </td>
+                      <td>
+                        <button class="btn-icon btn-icon-danger delete-app-btn" data-id="<%= app.id %>" aria-label="Delete job application">🗑️</button>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           6. CLIENT MESSAGES PANEL
+           ==================================================================== -->
+      <div id="panel-messages" class="cms-panel">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3 class="admin-card-title">Client Message Inbox</h3>
+          </div>
+          
+          <div class="admin-table-wrapper" style="margin-top:1rem;">
+            <table class="admin-table" aria-label="Contact messages inbox table">
+              <thead>
+                <tr>
+                  <th>Sender</th>
+                  <th>Subject</th>
+                  <th>Message Body</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="messagesTableBody">
+                <% if (messages.length === 0) { %>
+                  <tr>
+                    <td colspan="5" style="text-align:center; color:var(--admin-text-muted); padding:3rem;">No messages in inbox.</td>
+                  </tr>
+                <% } else { %>
+                  <% messages.forEach(msg => { %>
+                    <tr id="msg-row-<%= msg.id %>">
+                      <td>
+                        <strong><%= msg.name %></strong>
+                        <div style="font-size:0.8rem;"><%= msg.email %></div>
+                        <div style="font-size:0.75rem; color:var(--admin-text-muted);"><%= msg.date %></div>
+                      </td>
+                      <td><%= msg.subject %></td>
+                      <td style="max-width:300px;"><p style="font-size:0.85rem; margin:0; word-break:break-word;"><%= msg.message %></p></td>
+                      <td>
+                        <span class="badge-status <%= msg.status === 'Unread' ? 'status-unread' : 'status-read' %>">
+                          <%= msg.status %>
+                        </span>
+                      </td>
+                      <td>
+                        <div class="admin-actions">
+                          <% if (msg.status === 'Unread') { %>
+                            <button class="btn-icon read-msg-btn" data-id="<%= msg.id %>" aria-label="Mark message as read">✓</button>
+                          <% } %>
+                          <button class="btn-icon btn-icon-danger delete-msg-btn" data-id="<%= msg.id %>" aria-label="Delete message">🗑️</button>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           7. NEWSLETTER SUBSCRIBERS PANEL
+           ==================================================================== -->
+      <div id="panel-subscribers" class="cms-panel">
+        <div class="admin-card" style="max-width:700px;">
+          <div class="admin-card-header">
+            <h3 class="admin-card-title">Newsletter Subscribers</h3>
+          </div>
+          <div class="admin-table-wrapper" style="margin-top:1rem;">
+            <table class="admin-table" aria-label="Newsletter subscribers table">
+              <thead>
+                <tr>
+                  <th>Subscriber Email</th>
+                  <th>Join Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="subscribersTableBody">
+                <% if (subscribers.length === 0) { %>
+                  <tr>
+                    <td colspan="3" style="text-align:center; color:var(--admin-text-muted); padding:3rem;">No subscribers found.</td>
+                  </tr>
+                <% } else { %>
+                  <% subscribers.forEach(sub => { %>
+                    <tr id="sub-row-<%= sub.id %>">
+                      <td><strong><%= sub.email %></strong></td>
+                      <td><%= sub.date %></td>
+                      <td>
+                        <button class="btn-icon btn-icon-danger delete-sub-btn" data-id="<%= sub.id %>" aria-label="Delete subscriber">🗑️</button>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Toast Toast Container -->
+  <div class="form-response-toast"></div>
+
+  <!-- Dashboard Script Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initTabs();
+      initPermissionSwitcher();
+      initCmsForms();
+    });
+
+    // 1. Toast notify helper
+    function notify(msg, isSuccess = true) {
+      const toast = document.querySelector('.form-response-toast');
+      toast.textContent = msg;
+      toast.style.borderLeftColor = isSuccess ? '#10b981' : '#ef4444';
+      toast.classList.add('active');
+      setTimeout(() => toast.classList.remove('active'), 3500);
+    }
+
+    // 2. Tab switcher navigation
+    function initTabs() {
+      const navItems = document.querySelectorAll('.admin-nav-item');
+      const panels = document.querySelectorAll('.cms-panel');
+
+      navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          navItems.forEach(nav => nav.classList.remove('active'));
+          panels.forEach(p => p.classList.remove('active'));
+
+          item.classList.add('active');
+          const target = item.getAttribute('data-panel');
+          document.getElementById(`panel-${target}`).classList.add('active');
+          window.location.hash = target;
+        });
+      });
+
+      // Handle direct hash navigation
+      const hash = window.location.hash.substring(1);
+      if (hash) {
+        const matchingTab = document.querySelector(`.admin-nav-item[data-panel="${hash}"]`);
+        if (matchingTab) matchingTab.click();
+      }
+    }
+
+    // 3. User Permission Swapping API
+    function initPermissionSwitcher() {
+      const select = document.getElementById('simulatedRole');
+      select.addEventListener('change', async () => {
+        const newRole = select.value;
+        try {
+          const res = await fetch('/api/admin/role', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ newRole })
+          });
+          const data = await res.json();
+          if (res.ok) {
+            notify(data.message, true);
+            setTimeout(() => window.location.reload(), 1000);
+          } else {
+            notify(data.error || 'Failed to switch role.', false);
+          }
+        } catch (err) {
+          notify('Network communication failure.', false);
+        }
+      });
+    }
+
+    // 4. CMS Operations (AJAX calls)
+    function initCmsForms() {
+      /* ==================== BLOG POST CMS CRUD ==================== */
+      const blogForm = document.getElementById('blogCmsForm');
+      const blogCancel = document.getElementById('blogCancelBtn');
+
+      blogForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('blogPostId').value;
+        const payload = {
+          title: document.getElementById('blogTitle').value,
+          excerpt: document.getElementById('blogExcerpt').value,
+          category: document.getElementById('blogCategory').value,
+          content: document.getElementById('blogContent').value,
+          featured: document.getElementById('blogFeatured').value === 'true'
+        };
+
+        const url = id ? `/api/blog/${id}` : '/api/blog';
+        const method = id ? 'PUT' : 'POST';
+
+        try {
+          const res = await fetch(url, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          if (res.ok) {
+            notify(id ? 'Post updated!' : 'Post created successfully!', true);
+            setTimeout(() => window.location.reload(), 1000);
+          } else {
+            notify(data.error || 'Failed to save blog post.', false);
+          }
+        } catch (err) {
+          notify('Network communication failure.', false);
+        }
+      });
+
+      // Edit Blog post
+      document.querySelectorAll('.edit-blog-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const post = JSON.parse(btn.getAttribute('data-post'));
+          document.getElementById('blogFormTitle').textContent = 'Edit Blog Post';
+          document.getElementById('blogPostId').value = post.id;
+          document.getElementById('blogTitle').value = post.title;
+          document.getElementById('blogExcerpt').value = post.excerpt;
+          document.getElementById('blogCategory').value = post.category;
+          document.getElementById('blogContent').value = post.content;
+          document.getElementById('blogFeatured').value = post.featured ? 'true' : 'false';
+
+          blogCancel.style.display = 'inline-block';
+          // Scroll up the form
+          document.getElementById('blogCmsForm').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      if (blogCancel) {
+        blogCancel.addEventListener('click', () => {
+          blogForm.reset();
+          document.getElementById('blogPostId').value = '';
+          document.getElementById('blogFormTitle').textContent = 'Add New Blog Post';
+          blogCancel.style.display = 'none';
+        });
+      }
+
+      // Delete Blog post
+      document.querySelectorAll('.delete-blog-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          if (!confirm('Are you sure you want to delete this blog post?')) return;
+
+          try {
+            const res = await fetch(`/api/blog/${id}`, { method: 'DELETE' });
+            const data = await res.json();
+            if (res.ok) {
+              notify(data.message || 'Deleted!', true);
+              document.getElementById(`blog-row-${id}`).remove();
+            } else {
+              notify(data.error || 'Delete failed.', false);
+            }
+          } catch (err) {
+            notify('Communication failure.', false);
+          }
+        });
+      });
+
+
+      /* ==================== PORTFOLIO CMS CRUD ==================== */
+      const portfolioForm = document.getElementById('portfolioCmsForm');
+      const portfolioCancel = document.getElementById('portfolioCancelBtn');
+
+      portfolioForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('portfolioProjId').value;
+        const payload = {
+          title: document.getElementById('portfolioTitle').value,
+          description: document.getElementById('portfolioDesc').value,
+          category: document.getElementById('portfolioCategory').value,
+          client: document.getElementById('portfolioClient').value,
+          date: document.getElementById('portfolioDate').value,
+          tags: document.getElementById('portfolioTags').value,
+          challenge: document.getElementById('portfolioChallenge').value,
+          solution: document.getElementById('portfolioSolution').value,
+          results: document.getElementById('portfolioResults').value,
+          featured: document.getElementById('portfolioFeatured').value === 'true'
+        };
+
+        const url = id ? `/api/portfolio/${id}` : '/api/portfolio';
+        const method = id ? 'PUT' : 'POST';
+
+        try {
+          const res = await fetch(url, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          if (res.ok) {
+            notify(id ? 'Project updated!' : 'Project created!', true);
+            setTimeout(() => window.location.reload(), 1000);
+          } else {
+            notify(data.error || 'Failed to save project.', false);
+          }
+        } catch (err) {
+          notify('Network communication failure.', false);
+        }
+      });
+
+      document.querySelectorAll('.edit-portfolio-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const proj = JSON.parse(btn.getAttribute('data-proj'));
+          document.getElementById('portfolioFormTitle').textContent = 'Edit Project Case study';
+          document.getElementById('portfolioProjId').value = proj.id;
+          document.getElementById('portfolioTitle').value = proj.title;
+          document.getElementById('portfolioDesc').value = proj.description;
+          document.getElementById('portfolioCategory').value = proj.category;
+          document.getElementById('portfolioClient').value = proj.client;
+          document.getElementById('portfolioDate').value = proj.date;
+          document.getElementById('portfolioTags').value = proj.tags.join(', ');
+          document.getElementById('portfolioChallenge').value = proj.challenge;
+          document.getElementById('portfolioSolution').value = proj.solution;
+          document.getElementById('portfolioResults').value = proj.results.join('\n');
+          document.getElementById('portfolioFeatured').value = proj.featured ? 'true' : 'false';
+
+          portfolioCancel.style.display = 'inline-block';
+          document.getElementById('portfolioCmsForm').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      if (portfolioCancel) {
+        portfolioCancel.addEventListener('click', () => {
+          portfolioForm.reset();
+          document.getElementById('portfolioProjId').value = '';
+          document.getElementById('portfolioFormTitle').textContent = 'Add New Project';
+          portfolioCancel.style.display = 'none';
+        });
+      }
+
+      document.querySelectorAll('.delete-portfolio-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          if (!confirm('Are you sure you want to delete this case study?')) return;
+
+          try {
+            const res = await fetch(`/api/portfolio/${id}`, { method: 'DELETE' });
+            const data = await res.json();
+            if (res.ok) {
+              notify(data.message || 'Deleted!', true);
+              document.getElementById(`portfolio-row-${id}`).remove();
+            } else {
+              notify(data.error || 'Delete failed.', false);
+            }
+          } catch (err) {
+            notify('Communication failure.', false);
+          }
+        });
+      });
+
+
+      /* ==================== CAREER POSITION CMS CRUD ==================== */
+      const careersForm = document.getElementById('careersCmsForm');
+      const careersCancel = document.getElementById('careersCancelBtn');
+
+      careersForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('careersRoleId').value;
+        const payload = {
+          title: document.getElementById('careerTitle').value,
+          department: document.getElementById('careerDept').value,
+          location: document.getElementById('careerLocation').value,
+          type: document.getElementById('careerType').value,
+          salary: document.getElementById('careerSalary').value,
+          description: document.getElementById('careerDesc').value,
+          requirements: document.getElementById('careerReqs').value,
+          responsibilities: document.getElementById('careerResps').value
+        };
+
+        const url = id ? `/api/careers/${id}` : '/api/careers';
+        const method = id ? 'PUT' : 'POST';
+
+        try {
+          const res = await fetch(url, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          if (res.ok) {
+            notify(id ? 'Position updated!' : 'Position published!', true);
+            setTimeout(() => window.location.reload(), 1000);
+          } else {
+            notify(data.error || 'Failed to save position.', false);
+          }
+        } catch (err) {
+          notify('Network communication failure.', false);
+        }
+      });
+
+      document.querySelectorAll('.edit-career-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const job = JSON.parse(btn.getAttribute('data-job'));
+          document.getElementById('careerFormTitle').textContent = 'Edit Career Position';
+          document.getElementById('careersRoleId').value = job.id;
+          document.getElementById('careerTitle').value = job.title;
+          document.getElementById('careerDept').value = job.department;
+          document.getElementById('careerLocation').value = job.location;
+          document.getElementById('careerType').value = job.type;
+          document.getElementById('careerSalary').value = job.salary;
+          document.getElementById('careerDesc').value = job.description;
+          document.getElementById('careerReqs').value = job.requirements.join('\n');
+          document.getElementById('careerResps').value = job.responsibilities.join('\n');
+
+          careersCancel.style.display = 'inline-block';
+          document.getElementById('careersCmsForm').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      if (careersCancel) {
+        careersCancel.addEventListener('click', () => {
+          careersForm.reset();
+          document.getElementById('careersRoleId').value = '';
+          document.getElementById('careerFormTitle').textContent = 'Add Open Role';
+          careersCancel.style.display = 'none';
+        });
+      }
+
+      document.querySelectorAll('.delete-career-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          if (!confirm('Are you sure you want to delete this opening?')) return;
+
+          try {
+            const res = await fetch(`/api/careers/${id}`, { method: 'DELETE' });
+            const data = await res.json();
+            if (res.ok) {
+              notify(data.message || 'Deleted!', true);
+              document.getElementById(`careers-row-${id}`).remove();
+            } else {
+              notify(data.error || 'Delete failed.', false);
+            }
+          } catch (err) {
+            notify('Communication failure.', false);
+          }
+        });
+      });
+
+
+      /* ==================== CLIENT MESSAGES ==================== */
+      document.querySelectorAll('.read-msg-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          try {
+            const res = await fetch(`/api/messages/${id}/read`, { method: 'POST' });
+            const data = await res.json();
+            if (res.ok) {
+              notify('Inquiry marked as read.', true);
+              // Update badge styling
+              const row = document.getElementById(`msg-row-${id}`);
+              const badge = row.querySelector('.badge-status');
+              badge.textContent = 'Read';
+              badge.classList.remove('status-unread');
+              badge.classList.add('status-read');
+              btn.remove(); // Remove Read button
+              // Decr sidebar unread counter
+              const count = document.getElementById('unread-msg-count');
+              count.textContent = Math.max(0, parseInt(count.textContent) - 1);
+            } else {
+              notify(data.error || 'Action failed.', false);
+            }
+          } catch (err) {
+            notify('Communication failure.', false);
+          }
+        });
+      });
+
+      document.querySelectorAll('.delete-msg-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          if (!confirm('Are you sure you want to delete this inquiry permanently?')) return;
+
+          try {
+            const res = await fetch(`/api/messages/${id}`, { method: 'DELETE' });
+            const data = await res.json();
+            if (res.ok) {
+              notify(data.message || 'Inquiry deleted.', true);
+              document.getElementById(`msg-row-${id}`).remove();
+            } else {
+              notify(data.error || 'Delete failed.', false);
+            }
+          } catch (err) {
+            notify('Communication failure.', false);
+          }
+        });
+      });
+
+
+      /* ==================== NEWSLETTER SUBSCRIBERS ==================== */
+      document.querySelectorAll('.delete-sub-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          if (!confirm('Unsubscribe this email address?')) return;
+
+          try {
+            const res = await fetch(`/api/subscribers/${id}`, { method: 'DELETE' });
+            const data = await res.json();
+            if (res.ok) {
+              notify(data.message || 'Subscribers removed.', true);
+              document.getElementById(`sub-row-${id}`).remove();
+            } else {
+              notify(data.error || 'Unsubscribe failed.', false);
+            }
+          } catch (err) {
+            notify('Communication failure.', false);
+          }
+        });
+      });
+
+      /* ==================== JOB APPLICATIONS ==================== */
+      document.querySelectorAll('.delete-app-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          if (!confirm('Delete this application and delete their uploaded resume file?')) return;
+
+          try {
+            const res = await fetch(`/api/applications/${id}`, { method: 'DELETE' });
+            const data = await res.json();
+            if (res.ok) {
+              notify(data.message || 'Application deleted.', true);
+              document.getElementById(`app-row-${id}`).remove();
+            } else {
+              notify(data.error || 'Delete failed.', false);
+            }
+          } catch (err) {
+            notify('Communication failure.', false);
+          }
+        });
+      });
+
+    }
+  </script>
+
+</body>
+</html>

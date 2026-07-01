@@ -1,0 +1,76 @@
+<%- include('partials/header') %>
+
+<!-- Blog Hero Section -->
+<section style="padding: 10rem 2rem 5rem 2rem; background: radial-gradient(circle at 50% 30%, rgba(37, 99, 235, 0.06) 0%, transparent 60%); text-align: center;" class="reveal">
+  <div class="container">
+    <span class="section-tag">Insights Hub</span>
+    <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem; font-weight: 800;">Tech Insights &amp; Strategy</h1>
+    <p style="max-width: 700px; margin: 0 auto 3rem auto; font-size: 1.2rem; color: var(--text-muted);">
+      Deep dives into software architecture, frontend rendering bottlenecks, and cloud infrastructure management.
+    </p>
+  </div>
+</section>
+
+<!-- Blog List Feed -->
+<section class="reveal" style="padding-top: 2rem;">
+  <div class="container">
+    
+    <!-- Controls (Search & Categories) -->
+    <div class="blog-controls">
+      <!-- Search Form -->
+      <form action="/blog" method="GET" class="blog-search-box">
+        <input type="text" name="q" placeholder="Search articles..." value="<%= searchQuery %>" aria-label="Search blog posts">
+        <% if (selectedCategory !== 'All') { %>
+          <input type="hidden" name="category" value="<%= selectedCategory %>">
+        <% } %>
+      </form>
+
+      <!-- Category Filter Select (Responsive alternative) -->
+      <div style="text-align: right;">
+        <select onchange="window.location.href=this.value" aria-label="Filter blog by category" style="background: rgba(255,255,255,0.02); border:1px solid var(--border-color); color:#fff; padding:0.75rem 1rem; border-radius:8px; font-size:0.9rem; font-weight:500;">
+          <option value="/blog?q=<%= encodeURIComponent(searchQuery) %>">All Categories</option>
+          <% categories.filter(c => c !== 'All').forEach(category => { %>
+            <option value="/blog?category=<%= encodeURIComponent(category) %>&q=<%= encodeURIComponent(searchQuery) %>" <%= selectedCategory === category ? 'selected' : '' %>>
+              <%= category %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+
+    <!-- Blog Grid List -->
+    <div class="blog-grid">
+      <% if (blogs.length === 0) { %>
+        <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem; color: var(--text-muted);">
+          <p style="font-size: 1.2rem;">No articles found matching your query.</p>
+          <a href="/blog" class="btn btn-secondary" style="margin-top: 1rem;">View All Articles</a>
+        </div>
+      <% } else { %>
+        <% blogs.forEach(post => { %>
+          <div class="blog-card reveal">
+            <div class="blog-card-img">
+              <!-- Visual placeholder with category name -->
+              <div style="width:100%; height:100%; background: linear-gradient(135deg, #0e1726 0%, #1e293b 100%); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:1.5rem;"><%= post.category %></div>
+            </div>
+            <div class="blog-card-content">
+              <div class="blog-card-meta">
+                <span><%= post.date %></span>
+                <span><%= post.readTime %></span>
+              </div>
+              <h3 style="margin-bottom: 0.75rem;"><%= post.title %></h3>
+              <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted); margin-bottom: 1.5rem;"><%= post.excerpt %></p>
+              
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:1rem; border-top:1px solid var(--border-color);">
+                <a href="/blog/<%= post.slug %>" class="blog-read-more" style="color: var(--text-accent); font-weight:600;">Read Article</a>
+                <span style="font-size:0.75rem; color: var(--text-dim); display:flex; align-items:center; gap:0.25rem;">👁️ <%= post.views || 0 %> views</span>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+
+  </div>
+</section>
+
+<%- include('partials/footer') %>

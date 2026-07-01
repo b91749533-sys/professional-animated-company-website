@@ -1,0 +1,179 @@
+<%- include('partials/header') %>
+
+<!-- Careers Hero Section -->
+<section style="padding: 10rem 2rem 5rem 2rem; background: radial-gradient(circle at 50% 30%, rgba(124, 58, 237, 0.06) 0%, transparent 60%); text-align: center;" class="reveal">
+  <div class="container">
+    <span class="section-tag">Careers</span>
+    <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem; font-weight: 800;">Join Our Mission</h1>
+    <p style="max-width: 700px; margin: 0 auto 3rem auto; font-size: 1.2rem; color: var(--text-muted);">
+      We build solutions with high visual quality and strong technical durability. Help us design and engineer the modern web.
+    </p>
+  </div>
+</section>
+
+<!-- Company Culture / Culture Grid -->
+<section style="background: rgba(255, 255, 255, 0.01);" class="reveal">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Culture</span>
+      <h2>Life at Manssouri Tech</h2>
+      <p class="section-desc">Our team operates with complete transparency, high performance limits, and fully remote flexibility.</p>
+    </div>
+
+    <div class="services-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+      <!-- Remote-First -->
+      <div class="service-card reveal">
+        <div class="service-icon" style="background: rgba(37, 99, 235, 0.08);">🏠</div>
+        <h3>Fully Remote Work</h3>
+        <p>Coordinate from anywhere. We provide flexible scheduling, home-office equipment budgets, and co-working subsidies.</p>
+      </div>
+
+      <!-- Growth Budget -->
+      <div class="service-card reveal">
+        <div class="service-icon" style="background: rgba(37, 99, 235, 0.08);">📚</div>
+        <h3>Continuous Learning</h3>
+        <p>Annual budgets for professional certifications, tech conferences, courses, books, and custom skill training programs.</p>
+      </div>
+
+      <!-- Health Benefits -->
+      <div class="service-card reveal">
+        <div class="service-icon" style="background: rgba(37, 99, 235, 0.08);">💚</div>
+        <h3>Premium Wellness</h3>
+        <p>Generous PTO allowance, global medical insurance support, mental wellness days, and ergonomic desk allowances.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Open Positions Listing -->
+<section class="reveal">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Open Roles</span>
+      <h2>Current Opportunities</h2>
+      <p class="section-desc">Find your next challenge in software development, cloud systems, or interactive UI/UX design.</p>
+    </div>
+
+    <div class="jobs-list">
+      <% if (jobs.length === 0) { %>
+        <div style="text-align: center; padding: 4rem 2rem; border: 1px dashed var(--border-color); border-radius: 12px;">
+          <p style="color: var(--text-muted); font-size: 1.1rem;">We are not actively hiring at the moment. Check back soon!</p>
+        </div>
+      <% } else { %>
+        <% jobs.forEach(job => { %>
+          <div class="job-row reveal">
+            <div class="job-info">
+              <h3><%= job.title %></h3>
+              <div class="job-tags">
+                <span>📍 <%= job.location %></span>
+                <span>• 💼 <%= job.type %></span>
+                <span>• 💰 <%= job.salary %></span>
+                <span>• 🏢 <%= job.department %></span>
+              </div>
+              <p style="margin-top: 1rem; margin-bottom: 0; font-size: 0.95rem; line-height: 1.6; color: var(--text-muted);">
+                <%= job.description %>
+              </p>
+              
+              <!-- Expanding Details Accordion (Simulated cleanly with standard HTML summary/details) -->
+              <details style="margin-top: 1.25rem; font-size: 0.9rem; cursor:pointer; color: var(--text-accent);">
+                <summary style="font-weight: 600; outline:none; margin-bottom: 0.5rem;">Read Requirements &amp; Responsibilities</summary>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem; color: var(--text-muted); cursor: default;">
+                  <div>
+                    <h5 style="color:#fff; margin-bottom:0.5rem; font-weight:700;">Requirements:</h5>
+                    <ul style="padding-left:1.25rem; font-size:0.85rem; display:flex; flex-direction:column; gap:0.25rem;">
+                      <% job.requirements.forEach(req => { %>
+                        <li><%= req %></li>
+                      <% }) %>
+                    </ul>
+                  </div>
+                  <div>
+                    <h5 style="color:#fff; margin-bottom:0.5rem; font-weight:700;">Responsibilities:</h5>
+                    <ul style="padding-left:1.25rem; font-size:0.85rem; display:flex; flex-direction:column; gap:0.25rem;">
+                      <% job.responsibilities.forEach(resp => { %>
+                        <li><%= resp %></li>
+                      <% }) %>
+                    </ul>
+                  </div>
+                </div>
+              </details>
+            </div>
+            
+            <div class="job-action">
+              <button class="btn btn-primary apply-trigger" data-job-id="<%= job.id %>" data-job-title="<%= job.title %>" aria-label="Apply for <%= job.title %>">
+                Apply Now
+              </button>
+            </div>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- Application Modal (Hidden by default) -->
+<div class="modal" id="applyModal" role="dialog" aria-modal="true" aria-labelledby="modalJobDisplayTitle">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 style="margin: 0; font-size: 1.25rem;">Apply for: <span id="modalJobDisplayTitle" style="color: var(--text-accent);"></span></h3>
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+    </div>
+    
+    <div class="modal-body">
+      <form id="applyForm" enctype="multipart/form-data">
+        <!-- Hidden Inputs for selection -->
+        <input type="hidden" name="jobId" id="modalJobId">
+        <input type="hidden" name="jobTitle" id="modalJobTitle">
+
+        <div class="form-group">
+          <label for="appName">Full Name *</label>
+          <input type="text" id="appName" name="name" required placeholder="John Doe">
+        </div>
+
+        <div class="form-group">
+          <label for="appEmail">Email Address *</label>
+          <input type="email" id="appEmail" name="email" required placeholder="john@example.com">
+        </div>
+
+        <div class="form-group">
+          <label for="appPhone">Phone Number *</label>
+          <input type="tel" id="appPhone" name="phone" required placeholder="+1 (555) 000-0000">
+        </div>
+
+        <div class="form-group">
+          <label for="appResume">Resume (PDF, DOCX) *</label>
+          <div class="file-upload-wrapper">
+            <span style="font-size: 0.9rem; color: var(--text-muted); display: block; margin-bottom: 0.5rem;">Click to select or drag resume file here</span>
+            <span style="font-size: 0.75rem; color: var(--text-dim);">Max size 10MB (PDF/DOC/DOCX only)</span>
+            <input type="file" id="appResume" name="resume" required accept=".pdf,.doc,.docx">
+          </div>
+          <!-- Selected filename display -->
+          <div id="fileNameDisplay" style="font-size: 0.8rem; color: var(--text-accent); margin-top: 0.5rem; font-weight: 500;"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="appCoverLetter">Cover Letter (Optional)</label>
+          <textarea id="appCoverLetter" name="coverLetter" rows="4" placeholder="Tell us why you are a great fit for this position..."></textarea>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Dynamic file name selection display inside Careers page
+  document.getElementById('appResume').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const display = document.getElementById('fileNameDisplay');
+    if (file) {
+      display.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+    } else {
+      display.textContent = '';
+    }
+  });
+</script>
+
+<%- include('partials/footer') %>

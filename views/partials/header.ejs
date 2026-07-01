@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('seo') %>
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+  <!-- Top Announcement Banner -->
+  <div class="top-announcement">
+    Enterprise Platform &mdash; Designed and Engineered <span>By Youssef Manssouri</span>
+  </div>
+
+  <!-- Sticky Main Navbar -->
+  <header class="main-header">
+    <div class="nav-container">
+      <div class="logo">
+        <a href="/">
+          Manssouri Tech <span class="logo-dot"></span>
+        </a>
+      </div>
+      
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="/" class="nav-link <%= currentPath === '/' ? 'active' : '' %>">Home</a></li>
+          <li><a href="/about" class="nav-link <%= currentPath === '/about' ? 'active' : '' %>">About</a></li>
+          <li><a href="/services" class="nav-link <%= currentPath === '/services' ? 'active' : '' %>">Services</a></li>
+          <li><a href="/portfolio" class="nav-link <%= currentPath.startsWith('/portfolio') ? 'active' : '' %>">Portfolio</a></li>
+          <li><a href="/team" class="nav-link <%= currentPath === '/team' ? 'active' : '' %>">Team</a></li>
+          <li><a href="/blog" class="nav-link <%= currentPath.startsWith('/blog') ? 'active' : '' %>">Blog</a></li>
+          <li><a href="/careers" class="nav-link <%= currentPath === '/careers' ? 'active' : '' %>">Careers</a></li>
+          <li><a href="/contact" class="nav-link <%= currentPath === '/contact' ? 'active' : '' %>">Contact</a></li>
+          <% if (user) { %>
+            <li><a href="/admin/dashboard" class="nav-cta">Dashboard</a></li>
+          <% } else { %>
+            <li><a href="/contact" class="nav-cta">Consultation</a></li>
+          <% } %>
+        </ul>
+      </nav>
+
+      <button class="menu-toggle" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>

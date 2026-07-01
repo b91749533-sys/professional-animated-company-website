@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/seo') %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <h2>Control Center</h2>
+        <p>Authenticate to access the CMS console</p>
+      </div>
+
+      <% if (locals.error) { %>
+        <div class="login-error">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <form action="/admin/login" method="POST">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required placeholder="e.g. admin" autocomplete="username">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 2rem;">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required placeholder="••••••••" autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Secure Login</button>
+      </form>
+      
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="/" style="font-size: 0.85rem; color: var(--admin-text-muted);">&larr; Back to Public Website</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
